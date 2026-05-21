@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Golden Plate — Premium Dining</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-dark:#000000;
+      --card-bg:#18191e; /* Clean dark gray background for modern dark-mode cards */
+      --accent:#c99a17; /* warm amber/gold */
+      --muted:#b0b3b8;  /* lighter gray for secondary text on dark background */
+      --text-light:#f1f1f1; /* clear white/silver color for optimal readability */
+    }
+    html{scroll-behavior:smooth}
+    body{
+      background: linear-gradient(180deg, #0b0b0b 0%, #0f1113 100%); 
+      color: var(--text-light); 
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    /* Top header */
+    .top-header{background:linear-gradient(90deg, var(--bg-dark), #15161a); color:#fff;}
+    .top-header .tagline{color:#f3e7cf; opacity:.95;}
+    /* Navbar */
+    .navbar{background:#111218; border-bottom: 1px solid rgba(255,255,255,0.05);}
+    .navbar .nav-link{color:#e6e6e6;}
+    .navbar .nav-link:hover{color:var(--accent);}
+    .navbar-brand{font-weight:700; color:var(--accent); letter-spacing:.6px;}
+    /* Hero carousel */
+    .carousel-item{height:70vh; min-height:360px; position:relative; background-size:cover; background-position:center;}
+    .carousel-dark-overlay{position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.75));}
+    .carousel-caption{position:absolute; top:50%; transform:translateY(-50%); bottom:auto;}
+    .hero-title{font-family: "Georgia", serif; font-weight:700; letter-spacing:.6px; color:#fff; text-shadow:0 6px 18px rgba(0,0,0,.8);}
+    .btn-accent{background:var(--accent); border:0; color:#111; font-weight:600;}
+    .btn-accent:hover{background:#b08410; color:#111;}
+    /* Services */
+    .service-card .fa-2x{color:var(--accent);}
+    /* Menu cards styling adjusted for high contrast */
+    .menu-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); color: var(--text-light); }
+    .menu-card img{height:220px; object-fit:cover;}
+    .price-badge{background:var(--accent); color:#111; font-weight:700; border-radius:.25rem; padding:.4rem .6rem; box-shadow:0 2px 8px rgba(0,0,0,.4);}
+    /* Gallery hover */
+    .gallery-grid{gap:12px;}
+    .gallery-item{position:relative; overflow:hidden; border-radius:.5rem; border: 1px solid rgba(255,255,255,0.05);}
+    .gallery-item img{width:100%; height:100%; object-fit:cover; transition:transform .45s ease, filter .45s ease;}
+    .gallery-item::after{content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,.4), rgba(0,0,0,.1)); transition:opacity .35s;}
+    .gallery-item:hover img{transform:scale(1.06); filter:brightness(.95);}
+    /* Testimonials modern dark look */
+    .testimonial{background:var(--card-bg); border-radius:.6rem; box-shadow:0 8px 20px rgba(0,0,0,.4); padding:1.25rem; border: 1px solid rgba(255,255,255,0.05);}
+    .avatar{width:64px; height:64px; border-radius:50%; object-fit:cover; border:3px solid var(--accent); box-shadow:0 6px 18px rgba(0,0,0,.4);}
+    /* Generic custom card adjustments for structural segments */
+    .custom-dark-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); color: var(--text-light); }
+    /* Footer */
+    .site-footer{background:#0b0b0b; color:#cfcfcf; padding:3rem 0; border-top: 1px solid rgba(255,255,255,0.05);}
+    .social a{color:#fff; margin-right:.7rem; font-size:1.15rem; opacity:.85; transition: opacity 0.2s;}
+    .social a:hover{opacity:1; color: var(--accent);}
+    /* Modal Theme Overrides */
+    .modal-content { background-color: #1c1d24; color: var(--text-light); border: 1px solid rgba(255,255,255,0.1); }
+    .modal-header { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .modal-footer { border-top: 1px solid rgba(255,255,255,0.08); }
+    .btn-close { filter: invert(1); }
+    /* Form overrides for inputs inside dark mode layouts */
+    .form-control, .form-select { background-color: #131419; border: 1px solid rgba(255,255,255,0.15); color: #fff; }
+    .form-control:focus, .form-select:focus { background-color: #17181f; border-color: var(--accent); color: #fff; box-shadow: 0 0 0 0.25rem rgba(201, 154, 23, 0.25); }
+    /* Small adjustments */
+    @media (max-width:991px){ .carousel-item{height:56vh;} }
+    @media (max-width:575px){ .carousel-item{height:44vh;} .hero-title{font-size:1.6rem;} }
+  </style>
+</head>
+<body>
+
+  <!-- Top header -->
+  <header class="top-header py-2">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="h4 mb-0" style="color:#fff; font-weight:700;">The Golden Plate</h1>
+        <small class="tagline">Culinary craft. Timeless elegance.</small>
+      </div>
+      <div class="text-end text-white-50 d-none d-md-block">
+        <small><i class="fa-solid fa-clock"></i> Tues–Sun: 11:00 — 23:00</small>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="#home"><i class="fa-solid fa-utensils"></i> The Golden Plate</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"><i class="fa-solid fa-bars" style="color:#fff;"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link px-3" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#menu">Menu</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO / Carousel -->
+  <section id="home" class="mb-5">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+      <div class="carousel-inner">
+        <!-- Slide 1: Premium Dining Interior -->
+        <div class="carousel-item active" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1600&auto=format&fit=crop');">
+          <div class="carousel-dark-overlay"></div>
+          <div class="carousel-caption text-center text-white container">
+            <h2 class="hero-title display-5">Savor the Extraordinary</h2>
+            <p class="lead mb-4">Seasonal ingredients, masterful techniques, and warm hospitality.</p>
+            <button class="btn btn-accent btn-lg" data-bs-toggle="modal" data-bs-target="#orderModal">Order Now</button>
+          </div>
+        </div>
+
+        <!-- Slide 2: Exquisite Plating -->
+        <div class="carousel-item" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1600&auto=format&fit=crop');">
+          <div class="carousel-dark-overlay"></div>
+          <div class="carousel-caption text-center text-white container">
+            <h2 class="hero-title display-5">Crafted Flavors, Elegant Plates</h2>
+            <p class="lead mb-4">Dine with intention, taste with delight.</p>
+            <button class="btn btn-accent btn-lg" data-bs-toggle="modal" data-bs-target="#orderModal">Order Now</button>
+          </div>
+        </div>
+
+        <!-- Slide 3: Fine Restaurant Atmosphere -->
+        <div class="carousel-item" style="background-image:url('https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1600&auto=format&fit=crop');">
+          <div class="carousel-dark-overlay"></div>
+          <div class="carousel-caption text-center text-white container">
+            <h2 class="hero-title display-5">An Experience to Remember</h2>
+            <p class="lead mb-4">Exceptional dining for every special moment.</p>
+            <button class="btn btn-accent btn-lg" data-bs-toggle="modal" data-bs-target="#orderModal">Order Now</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <!-- About & Services Row -->
+    <section id="about" class="mb-5">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <div class="card custom-dark-card border-0 shadow-sm overflow-hidden">
+            <div class="row g-0">
+              <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=900&auto=format&fit=crop" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="About The Golden Plate Chef">
+              </div>
+              <div class="col-md-6">
+                <div class="card-body d-flex flex-column justify-content-center h-100 py-4">
+                  <h3 class="card-title text-white">Welcome to The Golden Plate</h3>
+                  <p class="card-text var-muted" style="color: var(--muted)">We combine classic techniques with modern flavors — curated menus, led by our executive chef. Private dining and bespoke catering available.</p>
+                  <a class="btn btn-outline-light btn-sm align-self-start mt-2" href="#contact">Book a Table</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Services -->
+        <div class="col-lg-6">
+          <h4 class="mb-4 text-white">Our Services</h4>
+          <div class="row gy-4">
+            <div class="col-sm-6 col-12">
+              <div class="d-flex gap-3 align-items-start service-card">
+                <div class="flex-shrink-0"><i class="fa-solid fa-truck fa-2x"></i></div>
+                <div>
+                  <h6 class="mb-1 text-white">Home Delivery</h6>
+                  <small style="color: var(--muted)">Fresh meals delivered fast and hot to your door.</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-12">
+              <div class="d-flex gap-3 align-items-start service-card">
+                <div class="flex-shrink-0"><i class="fa-solid fa-calendar-check fa-2x"></i></div>
+                <div>
+                  <h6 class="mb-1 text-white">Online Booking</h6>
+                  <small style="color: var(--muted)">Reserve tables quickly with our online booking system.</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-12">
+              <div class="d-flex gap-3 align-items-start service-card">
+                <div class="flex-shrink-0"><i class="fa-solid fa-concierge-bell fa-2x"></i></div>
+                <div>
+                  <h6 class="mb-1 text-white">Catering Services</h6>
+                  <small style="color: var(--muted)">Bespoke menus for private events and corporate functions.</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-12">
+              <div class="d-flex gap-3 align-items-start service-card">
+                <div class="flex-shrink-0"><i class="fa-solid fa-bolt fa-2x"></i></div>
+                <div>
+                  <h6 class="mb-1 text-white">Fast Service</h6>
+                  <small style="color: var(--muted)">Quick turnaround without compromising quality.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Our Signature Menu -->
+    <section id="menu" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="mb-0 text-white">Our Signature Menu</h3>
+        <small style="color: var(--muted)">Seasonal picks & chef favorites</small>
+      </div>
+
+      <div class="row">
+        <!-- Item 1: Salmon -->
+        <div class="col-lg-4 col-md-6 col-12 mb-4">
+          <div class="card menu-card shadow-sm h-100">
+            <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Seared Salmon">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="card-title mb-1 text-white">Seared Salmon</h5>
+                  <p style="color: var(--muted)" class="small mb-2">Citrus glaze, grilled asparagus, roasted new potatoes.</p>
+                </div>
+                <div class="text-end">
+                  <div class="price-badge">₹1,750</div>
+                </div>
+              </div>
+              <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm w-100" data-bs-toggle="modal" data-bs-target="#orderModal" data-item="Seared Salmon">Order Now</button>
+                <a class="btn btn-link text-decoration-none btn-sm" style="color: var(--accent)" href="#gallery">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2: Truffle Pasta -->
+        <div class="col-lg-4 col-md-6 col-12 mb-4">
+          <div class="card menu-card shadow-sm h-100">
+            <img src="https://images.unsplash.com/photo-1645112411341-6c4fd023714a?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Truffle Tagliatelle">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="card-title mb-1 text-white">Truffle Tagliatelle</h5>
+                  <p style="color: var(--muted)" class="small mb-2">Handmade pasta with aged Parmesan and black truffle shavings.</p>
+                </div>
+                <div class="text-end">
+                  <div class="price-badge">₹1,950</div>
+                </div>
+              </div>
+              <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm w-100" data-bs-toggle="modal" data-bs-target="#orderModal" data-item="Truffle Tagliatelle">Order Now</button>
+                <a class="btn btn-link text-decoration-none btn-sm" style="color: var(--accent)" href="#gallery">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3: Ribeye -->
+        <div class="col-lg-4 col-md-6 col-12 mb-4">
+          <div class="card menu-card shadow-sm h-100">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Charred Ribeye">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="card-title mb-1 text-white">Charred Ribeye</h5>
+                  <p style="color: var(--muted)" class="small mb-2">Bone-in ribeye, rosemary reduction, seasonal fire-roasted greens.</p>
+                </div>
+                <div class="text-end">
+                  <div class="price-badge">₹2,800</div>
+                </div>
+              </div>
+              <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm w-100" data-bs-toggle="modal" data-bs-target="#orderModal" data-item="Charred Ribeye">Order Now</button>
+                <a class="btn btn-link text-decoration-none btn-sm" style="color: var(--accent)" href="#gallery">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4: Salad Bowl -->
+        <div class="col-lg-4 col-md-6 col-12 mb-4">
+          <div class="card menu-card shadow-sm h-100">
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Heirloom Bowl">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="card-title mb-1 text-white">Heirloom Bowl</h5>
+                  <p style="color: var(--muted)" class="small mb-2">Roasted market veggies, premium quinoa, organic lemon-tahini vinaigrette.</p>
+                </div>
+                <div class="text-end">
+                  <div class="price-badge">₹1,100</div>
+                </div>
+              </div>
+              <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm w-100" data-bs-toggle="modal" data-bs-target="#orderModal" data-item="Heirloom Bowl">Order Now</button>
+                <a class="btn btn-link text-decoration-none btn-sm" style="color: var(--accent)" href="#gallery">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5: Wagyu Burger -->
+        <div class="col-lg-4 col-md-6 col-12 mb-4">
+          <div class="card menu-card shadow-sm h-100">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Gourmet Burger">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="card-title mb-1 text-white">Gourmet Wagyu Burger</h5>
+                  <p style="color: var(--muted)" class="small mb-2">Caramelized balsamic onions, vintage aged cheddar, toasted brioche bun.</p>
+                </div>
+                <div class="text-end">
+                  <div class="price-badge">₹1,450</div>
+                </div>
+              </div>
+              <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm w-100" data-bs-toggle="modal" data-bs-target="#orderModal" data-item="Wagyu Burger">Order Now</button>
+                <a class="btn btn-link text-decoration-none btn-sm" style="color: var(--accent)" href="#gallery">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 6: Mousse Dessert -->
+        <div class="col-lg-4 col-md-6 col-12 mb-4">
+          <div class="card menu-card shadow-sm h-100">
+            <img src="https://images.unsplash.com/photo-1528975604071-b4dc52a2d18c?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Chocolate Dessert">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="card-title mb-1 text-white">Dark Chocolate Mousse</h5>
+                  <p style="color: var(--muted)" class="small mb-2">Velvety 70% dark mousse, toasted pistachio crumble, candied orange zest.</p>
+                </div>
+                <div class="text-end">
+                  <div class="price-badge">₹550</div>
+                </div>
+              </div>
+              <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm w-100" data-bs-toggle="modal" data-bs-target="#orderModal" data-item="Chocolate Mousse">Order Now</button>
+                <a class="btn btn-link text-decoration-none btn-sm" style="color: var(--accent)" href="#gallery">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Image Gallery Section -->
+    <section id="gallery" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0 text-white">Gallery</h3>
+        <small style="color: var(--muted)">Moments captured in taste</small>
+      </div>
+
+      <div class="row gallery-grid">
+        <div class="col-md-4 col-sm-6 col-12 mb-3">
+          <div class="gallery-item" style="height:220px;">
+            <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=1200&auto=format&fit=crop" alt="Fine restaurant service" loading="lazy">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-12 mb-3">
+          <div class="gallery-item" style="height:220px;">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop" alt="Signature dish assembly" loading="lazy">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-12 mb-3">
+          <div class="gallery-item" style="height:220px;">
+            <img src="https://images.unsplash.com/photo-1543353071-873f17a7a088?q=80&w=1200&auto=format&fit=crop" alt="Plated colorful appetizers" loading="lazy">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-12 mb-3">
+          <div class="gallery-item" style="height:220px;">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" alt="Fine structural restaurant details" loading="lazy">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-12 mb-3">
+          <div class="gallery-item" style="height:220px;">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop" alt="Upscale table setting" loading="lazy">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-12 mb-3">
+          <div class="gallery-item" style="height:220px;">
+            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1200&auto=format&fit=crop" alt="Premium wine tasting setup" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="reviews" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0 text-white">What Our Guests Say</h3>
+        <small style="color: var(--muted)">Real reviews from real diners</small>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4 col-12">
+          <div class="testimonial p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" alt="customer 1" class="avatar">
+              <div>
+                <strong class="text-white">Amelia R.</strong>
+                <div class="text-warning small mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+              </div>
+            </div>
+            <p class="mb-0 card-text" style="color: var(--muted)">"A flawless evening — exceptional food and attentive service. Will return!"</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-12">
+          <div class="testimonial p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" alt="customer 2" class="avatar">
+              <div>
+                <strong class="text-white">Liam T.</strong>
+                <div class="text-warning small mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+              </div>
+            </div>
+            <p class="mb-0 card-text" style="color: var(--muted)">"Perfect flavors, beautiful presentation. Catering for our corporate event was superb."</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-12">
+          <div class="testimonial p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" alt="customer 3" class="avatar">
+              <div>
+                <strong class="text-white">Sophia K.</strong>
+                <div class="text-warning small mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+              </div>
+            </div>
+            <p class="mb-0 card-text" style="color: var(--muted)">"Atmosphere and service were impeccable — truly a memorable dining framework."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reservation & Contact Form -->
+    <section id="contact" class="mb-5">
+      <div class="row">
+        <div class="col-lg-6 mb-4">
+          <h3 class="mb-3 text-white">Reserve a Table</h3>
+          <form id="reservationForm" class="card custom-dark-card p-4 shadow-sm">
+            <div class="mb-3">
+              <label class="form-label small text-white">Name</label>
+              <input type="text" class="form-control" name="resName" required placeholder="Your full name">
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-white">Email</label>
+              <input type="email" class="form-control" name="resEmail" required placeholder="you@example.com">
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-white">Phone Number</label>
+              <input type="tel" class="form-control" name="resPhone" required placeholder="+91 XXXXX XXXXX">
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-white">Message</label>
+              <textarea class="form-control" name="resMessage" rows="3" placeholder="Any requests or special requirements"></textarea>
+            </div>
+            <button type="submit" class="btn btn-accent mt-2">Submit Reservation</button>
+          </form>
+        </div>
+
+        <div class="col-lg-6">
+          <h3 class="mb-3 text-white">Contact & Location</h3>
+          <div class="card custom-dark-card p-4 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div>
+              <p class="mb-1 text-white"><strong>Address</strong></p>
+              <p style="color: var(--muted)" class="mb-3">123 Amber Lane, Downtown, Culinary City</p>
+              <p class="mb-1 text-white"><strong>Phone</strong></p>
+              <p style="color: var(--muted)" class="mb-3">+91 (555) 123-4567</p>
+              <p class="mb-1 text-white"><strong>Email</strong></p>
+              <p style="color: var(--muted)" class="mb-3">hello@thegoldenplate.example</p>
+            </div>
+            <div class="mt-2">
+              <iframe title="The Golden Plate location" src="https://www.google.com/maps?q=restaurant&output=embed" style="width:100%; height:200px; border:0; border-radius:.5rem; filter: invert(90%) hue-rotate(180deg);" loading="lazy"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer mt-5">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-md-4">
+          <h5 style="color:#fff;">The Golden Plate</h5>
+          <p class="small" style="color: var(--muted)">Premium dining — contemporary menu crafted with seasonal ingredients.</p>
+          <p class="mb-0 small text-white"><i class="fa-solid fa-location-dot text-warning me-1"></i> 123 Amber Lane, Culinary City</p>
+          <p class="small text-white"><i class="fa-solid fa-phone text-warning me-1"></i> +91 (555) 123-4567</p>
+        </div>
+
+        <div class="col-md-4">
+          <h6 style="color:#fff;">Quick Links</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-1"><a class="text-decoration-none" style="color: var(--muted)" href="#menu">Menu</a></li>
+            <li class="mb-1"><a class="text-decoration-none" style="color: var(--muted)" href="#gallery">Gallery</a></li>
+            <li class="mb-1"><a class="text-decoration-none" style="color: var(--muted)" href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-4">
+          <h6 style="color:#fff;">Follow Us</h6>
+          <div class="social mb-3">
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" aria-label="TripAdvisor"><i class="fa-brands fa-tripadvisor"></i></a>
+          </div>
+          <small style="color: var(--muted)">Open Tue–Sun • Walk-ins welcome</small>
+        </div>
+      </div>
+
+      <hr class="my-4" style="border-color:rgba(255,255,255,.08)">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <small style="color: var(--muted)">&copy; <span id="yr"></span> The Golden Plate. All rights reserved.</small>
+        <small style="color: var(--muted)">Designed with <i class="fa-solid fa-heart text-warning"></i></small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Order Modal -->
+  <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="orderForm" novalidate>
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="orderModalLabel">Quick Order</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="orderAlert"></div>
+          <div class="mb-3">
+            <label class="form-label small text-white">Choose Item</label>
+            <select class="form-select" id="orderItem" required>
+              <option>Seared Salmon</option>
+              <option>Truffle Tagliatelle</option>
+              <option>Charred Ribeye</option>
+              <option>Heirloom Bowl</option>
+              <option>Wagyu Burger</option>
+              <option>Chocolate Mousse</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small text-white">Quantity</label>
+            <input type="number" class="form-control" id="orderQty" min="1" value="1" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small text-white">Delivery Address</label>
+            <textarea class="form-control" id="orderAddress" rows="2" placeholder="Street, City, Postal code" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-accent">Confirm Order</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Dynamic year in footer
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Prefill order modal item when Order Now buttons clicked
+    document.querySelectorAll('[data-bs-target="#orderModal"]').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const item = btn.dataset.item || '';
+        if(item){
+          const select = document.getElementById('orderItem');
+          for(let i=0;i<select.options.length;i++){
+            if(select.options[i].text.toLowerCase().includes(item.toLowerCase())){
+              select.selectedIndex = i; break;
+            }
+          }
+        }
+      });
+    });
+
+    // Handle order submission
+    const orderForm = document.getElementById('orderForm');
+    orderForm.addEventListener('submit', function(evt){
+      evt.preventDefault();
+      const item = document.getElementById('orderItem').value;
+      const qty = document.getElementById('orderQty').value;
+      const address = document.getElementById('orderAddress').value.trim();
+      if(!item || !qty || !address){
+        showOrderAlert('Please complete all fields', 'danger'); return;
+      }
+      // Simulate submission
+      showOrderAlert('Order placed! We will contact you shortly.', 'success');
+      // Close modal after short delay
+      setTimeout(()=>{
+        const modalEl = document.getElementById('orderModal');
+        const bsModal = bootstrap.Modal.getInstance(modalEl);
+        if(bsModal) bsModal.hide();
+        orderForm.reset();
+        document.getElementById('orderAlert').innerHTML = '';
+      }, 1200);
+    });
+
+    function showOrderAlert(message, type='success'){
+      const el = document.getElementById('orderAlert');
+      el.innerHTML = `<div class="alert alert-${type} small mb-2" role="alert">${message}</div>`;
+    }
+
+    // Reservation form handling (basic)
+    const resForm = document.getElementById('reservationForm');
+    resForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = resForm.resName.value.trim();
+      const email = resForm.resEmail.value.trim();
+      const phone = resForm.resPhone.value.trim();
+      if(!name || !email || !phone){
+        alert('Please fill Name, Email, and Phone.');
+        return;
+      }
+      // Simulate send
+      alert('Reservation request submitted. We will contact you to confirm.');
+      resForm.reset();
+    });
+  </script>
+</body>
+</html>
